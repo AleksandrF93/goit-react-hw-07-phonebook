@@ -5,15 +5,14 @@ import ContactItem from '../ContactListItem';
 import { useFetchContactsQuery, useDeleteContactMutation } from "redux/contactSlice";
 
 export default function ContactsList() {
-    const { data: contacts } = useFetchContactsQuery();
+    const { data = [], isError } = useFetchContactsQuery();
     const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
     const filters = useSelector(state => state.filter);
-
     const filteredContacts = () => {
-    const normalizeFilter = filters.toLowerCase();
+        const normalizeFilter = filters.toLowerCase();
     return (
-      contacts &&
-      contacts.filter(contact =>
+      data &&
+      data.filter(contact =>
         contact.name.toLowerCase().includes(normalizeFilter)
       )
     );
@@ -23,7 +22,7 @@ export default function ContactsList() {
     return (
         <>
             <ul>
-                {filterContact && (
+                {!isError && (
                     <ContactItem
                         contacts={filterContact}
                         onDelete={deleteContact}

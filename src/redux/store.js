@@ -8,10 +8,8 @@ export const store = configureStore({
     filter: filterSlice.reducer,
     [contactApi.reducerPath]: contactApi.reducer,
   },
-  middleware: getDefaultMiddleware => [
-    ...getDefaultMiddleware(),
-    contactApi.middleware
-  ]
+   middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(contactApi.middleware),
 });
 
 setupListeners(store.dispatch);
